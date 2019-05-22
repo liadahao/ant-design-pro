@@ -142,6 +142,24 @@ export default [
           },
         ],
       },
+      // 产品管理
+      {
+        path: '/product',
+        icon: 'table',
+        name: 'product',
+        routes: [
+          {
+            path: '/product/table-list',
+            name: 'searchtable',
+            component: './Product/TableList',
+          },
+          {
+            path: '/product/basic-list',
+            name: 'basiclist',
+            component: './Product/BasicList',
+          },
+        ],
+      },
       {
         path: '/profile',
         name: 'profile',
