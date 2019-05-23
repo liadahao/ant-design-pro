@@ -9,6 +9,34 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
+export async function queryProuctSku(params) {
+  return request(`/product/list?${stringify(params)}`);
+}
+
+export async function addProuctSku(params) {
+  return request('/product/save', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function updateProuctSku(params = {}) {
+  return request(`/product/save?${stringify(params.query)}`, {
+    method: 'POST',
+    data: {
+      ...params.body,
+      method: 'update',
+    },
+  });
+}
+
+export async function queryProductProfile(params = {}) {
+  return request(`/product/sku/list?${stringify(params)}`);
+}
+
 export async function queryRule(params) {
   return request(`/api/rule?${stringify(params)}`);
 }
