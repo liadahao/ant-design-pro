@@ -23,7 +23,7 @@ export default {
   'menu.list.searchlist.projects': '搜索列表（项目）',
   'menu.list.searchlist.applications': '搜索列表（应用）',
   'menu.product': '产品模块',
-  'menu.product.searchtable': '产品列表',
+  'menu.product.spu': '产品列表',
   'menu.product.profile': '产品详情页',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',

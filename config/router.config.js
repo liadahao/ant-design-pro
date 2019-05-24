@@ -4,9 +4,9 @@ export default [
     path: '/user',
     component: '../layouts/UserLayout',
     routes: [
-      { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', name: 'login', component: './User/Login' },
-      { path: '/user/register', name: 'register', component: './User/Register' },
+      {path: '/user', redirect: '/user/login'},
+      {path: '/user/login', name: 'login', component: './User/Login'},
+      {path: '/user/register', name: 'register', component: './User/Register'},
       {
         path: '/user/register-result',
         name: 'register.result',
@@ -24,7 +24,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis', authority: ['admin', 'user'] },
+      {path: '/', redirect: '/dashboard/analysis', authority: ['admin', 'user']},
       {
         path: '/dashboard',
         name: 'dashboard',
@@ -48,14 +48,15 @@ export default [
         ],
       },
       // 产品管理
+      {path: '/product', redirect: '/product/spu'},
       {
         path: '/product',
-        icon: 'table',
         name: 'product',
+        icon: 'table',
         routes: [
           {
-            path: '/product/table-list',
-            name: 'searchtable',
+            path: '/product/spu',
+            name: 'spu',
             component: './Product/TableList',
           },
           {
