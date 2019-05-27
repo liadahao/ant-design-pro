@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import moment from 'moment';
 
@@ -28,7 +28,15 @@ const {Search, TextArea} = Input;
   productProfile,
   loading: loading.effects['productProfile/fetchProduct'],
 }))
-class ProductProfile extends Component {
+@Form.create()
+class ProductProfile extends PureComponent {
+  state = { visible: false, done: false };
+
+  formLayout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 13 },
+  };
+
   componentDidMount() {
     const {dispatch, match} = this.props;
     const {params} = match;
@@ -47,7 +55,7 @@ class ProductProfile extends Component {
   };
 
   handleDone = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
+    // setTimeout(() => this.addBtn.blur(), 0);
     this.setState({
       done: false,
       visible: false,
@@ -55,7 +63,7 @@ class ProductProfile extends Component {
   };
 
   handleCancel = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
+    // setTimeout(() => this.addBtn.blur(), 0);
     this.setState({
       visible: false,
     });
@@ -67,7 +75,7 @@ class ProductProfile extends Component {
     const { current } = this.state;
     const id = current ? current.id : '';
 
-    setTimeout(() => this.addBtn.blur(), 0);
+    // setTimeout(() => this.addBtn.blur(), 0);
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -86,6 +94,11 @@ class ProductProfile extends Component {
       form: {getFieldDecorator},
     } = this.props;
     const {visible, done, current = {}} = this.state;
+
+    const modalFooter = done
+      ? { footer: null, onCancel: this.handleDone }
+      : { okText: '保存', onOk: this.handleSubmit, onCancel: this.handleCancel };
+
     const skuColumns = [
       {
         title: '产品标题',
@@ -134,7 +147,7 @@ class ProductProfile extends Component {
             <Button icon="edit" type="primary" onClick={() => this.showEditModal(record)}>
               修改采信来源
             </Button>
-            <Divider type="vertical"/>
+            <Divider type="vertical" />
             <Button icon="edit" type="primary" onClick={() => this.showEditModal(record)}>
               人工修改价钱
             </Button>
@@ -160,41 +173,28 @@ class ProductProfile extends Component {
       }
       return (
         <Form onSubmit={this.handleSubmit}>
-          <FormItem label="任务名称" {...this.formLayout}>
-            {getFieldDecorator('title', {
-              rules: [{required: true, message: '请输入任务名称'}],
-              initialValue: current.title,
-            })(<Input placeholder="请输入"/>)}
+          <FormItem label="产品原价" {...this.formLayout}>
+            {getFieldDecorator('manualProductPrice', {
+              rules: [{required: true, message: '请输入产品原价'}],
+              initialValue: current.manualProductPrice,
+            })(<Input placeholder="请输入" />)}
           </FormItem>
-          <FormItem label="开始时间" {...this.formLayout}>
-            {getFieldDecorator('createdAt', {
-              rules: [{required: true, message: '请选择开始时间'}],
-              initialValue: current.createdAt ? moment(current.createdAt) : null,
-            })(
-              <DatePicker
-                showTime
-                placeholder="请选择"
-                format="YYYY-MM-DD HH:mm:ss"
-                style={{width: '100%'}}
-              />
-            )}
+          <FormItem label="产品售价" {...this.formLayout}>
+            {getFieldDecorator('manualProductSale', {
+              rules: [{required: true, message: '请输入产品售价'}],
+              initialValue: current.manualProductSale,
+            })(<Input placeholder="请输入" />)}
           </FormItem>
-          <FormItem label="任务负责人" {...this.formLayout}>
-            {getFieldDecorator('owner', {
-              rules: [{required: true, message: '请选择任务负责人'}],
-              initialValue: current.owner,
+          <FormItem label="产品状态" {...this.formLayout}>
+            {getFieldDecorator('manual_availability', {
+              rules: [{required: true, message: '请输入产品状态'}],
+              initialValue: current.manual_availability,
             })(
               <Select placeholder="请选择">
-                <SelectOption value="付晓晓">付晓晓</SelectOption>
-                <SelectOption value="周毛毛">周毛毛</SelectOption>
+                <SelectOption value="1">有货</SelectOption>
+                <SelectOption value="2">没货</SelectOption>
               </Select>
             )}
-          </FormItem>
-          <FormItem {...this.formLayout} label="产品描述">
-            {getFieldDecorator('subDescription', {
-              rules: [{message: '请输入至少五个字符的产品描述！', min: 5}],
-              initialValue: current.subDescription,
-            })(<TextArea rows={4} placeholder="请输入至少五个字符"/>)}
           </FormItem>
         </Form>
       );
@@ -213,6 +213,17 @@ class ProductProfile extends Component {
             bordered
           />
         </Card>
+        <Modal
+          title={done ? null : `任务${current.id ? '编辑' : '添加'}`}
+          className={styles.standardListForm}
+          width={640}
+          bodyStyle={done ? { padding: '72px 0' } : { padding: '28px 0 0' }}
+          destroyOnClose
+          visible={visible}
+          {...modalFooter}
+        >
+          {getModalContent()}
+        </Modal>
       </PageHeaderWrapper>
     );
   }
