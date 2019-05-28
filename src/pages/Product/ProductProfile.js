@@ -71,7 +71,9 @@ class ProductProfile extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { dispatch, form } = this.props;
+    const { dispatch, form, match } = this.props;
+    const {params} = match;
+    const vendorId = params.vendorId;
     const { current } = this.state;
     const id = current ? current.id : '';
 
@@ -82,8 +84,8 @@ class ProductProfile extends PureComponent {
         done: true,
       });
       dispatch({
-        type: 'list/submit',
-        payload: { id, ...fieldsValue },
+        type: 'productProfile/update',
+        payload: { id,vendorId, ...fieldsValue },
       });
     });
   };

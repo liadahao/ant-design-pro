@@ -1,4 +1,4 @@
-import { stringify } from 'qs';
+import {stringify} from 'qs';
 import request from '@/utils/request';
 
 export async function queryProjectNotice() {
@@ -35,6 +35,17 @@ export async function updateProuctSku(params = {}) {
 
 export async function queryProductProfile(params = {}) {
   return request(`/product/sku/list?${stringify(params)}`);
+}
+
+export async function updateProductProfile(params = {}) {
+  const {...restParams} = params;
+  return request(`/product/sku/save`, {
+    method: 'POST',
+    data: {
+      ...restParams,
+      method: 'update',
+    },
+  });
 }
 
 export async function queryRule(params) {
@@ -99,7 +110,7 @@ export async function queryFakeList(params) {
 }
 
 export async function removeFakeList(params) {
-  const { count = 5, ...restParams } = params;
+  const {count = 5, ...restParams} = params;
   return request(`/api/fake_list?count=${count}`, {
     method: 'POST',
     data: {
@@ -110,7 +121,7 @@ export async function removeFakeList(params) {
 }
 
 export async function addFakeList(params) {
-  const { count = 5, ...restParams } = params;
+  const {count = 5, ...restParams} = params;
   return request(`/api/fake_list?count=${count}`, {
     method: 'POST',
     data: {
@@ -121,7 +132,7 @@ export async function addFakeList(params) {
 }
 
 export async function updateFakeList(params) {
-  const { count = 5, ...restParams } = params;
+  const {count = 5, ...restParams} = params;
   return request(`/api/fake_list?count=${count}`, {
     method: 'POST',
     data: {
