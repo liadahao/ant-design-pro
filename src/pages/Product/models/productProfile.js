@@ -18,6 +18,7 @@ export default {
         payload: response,
       });
     },
+
     * update({payload, callback}, {call, put}) {
       const response = yield call(updateProductProfile, payload);
       yield put({
